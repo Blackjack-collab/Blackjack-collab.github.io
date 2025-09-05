@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bilingual Grants Announcement</title>
+  <style>
+    /* Import Inter font for a professional and consistent look */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    :root{
+      --brand:#3A6B53; /* deep Green accent */
+      --brand-2:#3A6B53;/* secondary Green */
+      --bg:#3A6B53; /* Reverted to original green background */
+      --text:#3A6B53; /* Reverted to match original design */
+      --muted:#040405; /* Reverted to original dark text for cards */
+      --card:#ffffff;
+      --ring:rgba(23,74,139,.15);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin: 0; /* Remove default margin for better mobile layout */
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(1300px, 100% - 32px);margin-inline:auto} /* Added horizontal padding for mobile */
+    .nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.85);border-bottom:1px solid #e8edf5;backdrop-filter:saturate(180%) blur(6px)}
+    .nav-inner{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--brand)}
+    .brand .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand-2));box-shadow:0 6px 18px var(--ring)}
+    .menu{display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;} /* Reduced gap and added wrap for responsiveness */
+    .menu a{font-weight:600;color:#2a3244}
+    .lang{
+      display:inline-flex;align-items:center;gap:10px;
+      border:1px solid #e4e9f3;border-radius:999px;padding:6px 10px;background:#fff; box-shadow:0 4px 12px var(--ring)
+    }
+    .lang button{appearance:none;border:0;background:none;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer;color:#3a4660}
+    .lang button.active{background:var(--brand);color:#fff}
+
+    .hero{padding:40px 0 28px;background:linear-gradient(180deg, rgba(117, 29, 69, 0.08), rgba(247,249,252,0));}
+    .hero h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:0 0 10px}
+    .hero p{color:var(--muted);font-size:clamp(16px,2.2vw,18px);margin:0}
+
+    .badge{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid #e6edf8;padding:10px 14px;border-radius:999px;color:#274062;font-weight:600;box-shadow:0 6px 20px var(--ring)}
+    .badge .dot{width:10px;height:10px;border-radius:50%;background:var(--brand)}
+
+    .grid{display:grid;gap:18px}
+    
+    /* --- RESPONSIVE GRID SYSTEM --- */
+    .grid.cols-2{
+        grid-template-columns: 1fr; /* Mobile-first: single column */
+    }
+    @media (min-width: 768px){
+      .grid.cols-2{grid-template-columns:1.1fr 1fr} /* Two columns on tablets and larger */
+    }
+    
+    .grid.cols-3{
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Fluid columns that adapt to screen size */
+    }
+
+    .card{background:var(--card);border:1px solid #e8edf5;border-radius:var(--radius);padding:24px;box-shadow:0 10px 30px var(--ring)}
+    .card h3{margin:0 0 8px;font-size:16px}
+    .muted{color:var(--muted)}
+    .list{padding-left:18px;margin:10px 0}
+
+    .section{padding:22px 0}
+    .section h2{font-size:28px;margin:0 0 16px}
+
+    .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:800}
+
+    .cta{display:inline-flex;align-items:center;gap:10px;background:var(--brand);color:#fff;border-radius:12px;padding:12px 16px;font-weight:700;border:0;cursor:pointer}
+    .cta.secondary{background:#fff;color:var(--brand);border:1px solid #d7e4f4}
+
+    .timeline{display:grid;gap:14px}
+    .step{display:grid;grid-template-columns:20px 1fr;gap:12px;align-items:start}
+    .step .bar{width:6px;border-radius:20px;background:linear-gradient(180deg,var(--brand),var(--brand-2));height:100%}
+
+    footer{margin-top:40px; padding:30px 0;border-top:1px solid #e8edf5;color:#5b6b84}
+
+    /* Lao Font Override */
+    [data-lang="lo"] {
+      font-family: "Phetsarath OT", "Saysettha OT", "Noto Sans Lao", sans-serif;
+    }
+
+    /* Language visibility */
+    [data-lang]{display:none}
+    .show-en [data-lang="en"],
+    .show-lo [data-lang="lo"]{display:revert}
+
+    /* --- MOBILE MENU STYLES --- */
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        z-index: 1001; /* Ensure it's above other elements */
+    }
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 5px 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    @media (max-width: 920px) {
+        .menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            width: 100%;
+            flex-direction: column;
+            padding: 10px 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-top: 1px solid #e8edf5;
+        }
+        .menu a {
+            padding: 15px 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .nav.active .menu {
+            display: flex;
+        }
+        .hamburger {
+            display: block;
+        }
+        .nav.active .hamburger span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav.active .hamburger span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav.active .hamburger span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .hero {
+            padding-top: 20px;
+        }
+        .card {
+            padding: 16px;
+        }
+        .section h2 {
+            font-size: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(24px, 6vw, 32px);
+        }
+        .nav-inner {
+            flex-wrap: wrap;
+        }
+    }
+  </style>
+</head>
+<body class="show-en" data-current-lang="en">
+<header class="nav">
+<div class="container nav-inner">
+<div class="brand">
+<div aria-hidden="true" class="logo"></div>
+<div>
+<div class="kicker" data-lang="en">NAP Research Grant 2025</div>
+<div class="kicker" data-lang="lo">NAP Research Grant 2025</div>
+<strong data-lang="en">Announcements</strong>
+<strong data-lang="lo">ການແຈ້ງການ</strong>
+</div>
+</div>
+<nav class="menu">
+<a data-lang="en" href="#overview">Overview</a>
+<a data-lang="lo" href="#overview">ພາບລວມ</a>
+<a data-lang="en" href="#Objective">Objective</a>
+<a data-lang="lo" href="#Objective">ຈຸດປະສົງ</a>
+<a data-lang="en" href="#Criteria">Criteria</a>
+<a data-lang="lo" href="#Criteria">ຂໍ້ກຳນົດ</a>
+<a data-lang="en" href="#Qualified Applicants">Qualified Applicants</a>
+<a data-lang="lo" href="#Qualified Applicants">ຄຸນສົມບັດ</a>
+<a data-lang="en" href="#Proposal Review Process">Proposal Review Process</a>
+<a data-lang="lo" href="#Proposal Review Process">ຂະບວນການພິຈາລະນາ</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px;">
+    <div aria-label="Language switcher" class="lang" role="group">
+        <button aria-pressed="true" class="active" data-lang-btn="en" id="btn-en">EN</button>
+        <button aria-pressed="false" data-lang-btn="lo" id="btn-lo">LA</button>
+    </div>
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</div>
+</div>
+</header>
+<main class="container">
+<section class="hero">
+<div class="grid cols-2">
+<div>
+<div class="card">
+<h1 data-lang="en">NAP Research Grant 2025 – Call for Proposal</h1>
+<h1 data-lang="lo">NAP Research Grant 2025 – Call for Proposal</h1>
+<p data-lang="en">2025 Grants Announcement</p>
+<p data-lang="lo">2025 Grants Announcement</p>
+</div>
+</div>
+<div class="card">
+<h3 data-lang="en">Contact Information</h3>
+<h3 data-lang="lo">ຊ່ອງທາງການຕິດຕໍ່</h3>
+<p style="margin: 10px 0">Ms. Oulaykham</p>
+<p style="margin: 10px 0"> Email: naplaos2024@gmail.com</p>
+<p style="margin: 10px 0"> Tel: +8562056966515</p>
+</div>
+</div>
+</section>
+
+<div class="card">
+<section class="section" id="overview">
+<h2 data-lang="en">I. Overview</h2>
+<h2 data-lang="lo">I. ພາບລວມ</h2>
+<div class="card">
+<p style="text-align:justify;" class="muted" data-lang="en">The Department of Environment (DoE) of the Ministry of Agriculture and Environment (MAE), in partnership with the United Nations Environment Programme (UNEP), via the Project on Building the capacity of the Lao PDR government to advance the National Adaptation Planning process or the NAP Project, is pleased to announce the launch of the Call for Proposals for the Lao PDR Climate Adaptation Research Grant. This grant is a key initiative to support the implementation of Lao PDR's updated Nationally Determined Contribution (NDC) and the ongoing National Adaptation Plan (NAP) process. The primary goal is to generate evidence-based, locally relevant research to inform and strengthen national and sub-national climate adaptation planning and implementation. We aim to empower a diverse range of national research institutions and universities to develop and submit high-quality proposals for applied research on climate change adaptation.</p>
+<p style="text-align:justify;" class="muted" data-lang="lo">ກົມສິ່ງແວດລ້ອມ (ກສວ), ກະຊວງກະສິກຳ ແລະ ສິ່ງແວດລ້ອມ (ກສສ), ຮ່ວມກັບ ອົງການສິ່ງແວດລ້ອມແຫ່ງສະຫະປະຊາຊາດ (UNEP), ຜ່ານໂຄງການສ້າງຄວາມອາດສາມາດໃຫ້ແກ່ລັດຖະບານ ສປປ ລາວ ເພື່ອລົງເລິກຂະບວນການຈັດຕັ້ງປະຕິບັດແຜນງານແຫ່ງຊາດ ວ່າດ້ວຍການປັບຕົວເຂົ້າກັບການປ່ຽນແປງຂອງດິນຟ້າອາກາດ ຫຼື ໂຄງການ NAP, ມີຄວາມຍິນດີຂໍຖືເປັນກຽດແຈ້ງການເປີດຮັບຂໍ້ສະເໜີໂຄງການ ທຶນຊ່ວຍເຫຼືອລ້າດ້ານການຄົ້ນຄວ້າກ່ຽວກັບການປັບຕົວຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດຂອງ ສປປ ລາວ. ທຶນຊ່ວຍເຫຼືອລ້ານີ້ແມ່ນຂໍ້ລິເລີ່ມທີ່ສຳຄັນ ເພື່ອສະໜັບສະໜູນການຈັດຕັ້ງປະຕິບັດເອກະສານປະກອບສ່ວນທີ່ປະເທດກໍານົດເອງ (NDC) ສະບັບປັບປຸງຂອງ ສປປ ລາວ ແລະ ຂະບວນການຈັດຕັ້ງປະຕິບັດແຜນງານແຫ່ງຊາດ ວ່າດ້ວຍການປັບຕົວ (NAP) ທີ່ກຳລັງດຳການເນີນຢູ່. ເປົ້າໝາຍຕົ້ນຕໍແມ່ນເພື່ອສ້າງຜົນງານການຄົ້ນຄວ້າທີ່ມີຫຼັກຖານອ້າງອີງ ແລະ ສອດຄ່ອງກັບສະພາບທ້ອງຖິ່ນ ເພື່ອນຳໃຊ້ເຂົ້າໃນການວາງແຜນ ແລະ ຈັດຕັ້ງປະຕິບັດວຽກງານການປັບຕົວຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດທັງໃນລະດັບຊາດ ແລະ ລະດັບທ້ອງຖິ່ນ. ພວກເຮົາຕັ້ງເປົ້າທີ່ຈະສ້າງຄວາມເຂັ້ມແຂງໃຫ້ເເຕ່ລະສະຖາບັນການຄົ້ນຄວ້າ ແລະ ມະຫາວິທະຍາໄລຕ່າງໆ ເພື່ອພັດທະນາ ແລະ ຍື່ນສະເໜີໂຄງການຄົ້ນຄວ້າ ກ່ຽວກັບການປັບຕົວຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດເເບບມີປະສິດທິພາບ.</p>
+</section>
+
+<section class="section" id="Objective">
+<h2 data-lang="en">II. Objectives</h2>
+<h2 data-lang="lo">II. ຈຸດປະສົງ</h2>
+<div class="card">
+<p style="text-align:justify;" class="muted" data-lang="en"> The main objective of this research grant is to generate new knowledge with policy relevance that can support Lao PDR's climate resilience goals. The research funded through this grant will contribute to a deeper understanding of climate vulnerabilities and the identification of effective, equitable, and sustainable adaptation solutions.This initiative aims to build the adaptive capacity of communities, ecosystems, and key economic sectors across Lao PDR. </p>
+<p style="text-align:justify;" class="muted" data-lang="lo"> ຈຸດປະສົງຫຼັກຂອງທຶນຊ່ວຍເຫຼືອລ້າດ້ານການຄົ້ນຄວ້ານີ້ ແມ່ນເພື່ອສ້າງອົງຄວາມຮູ້ໃໝ່ ທີ່ມີຄວາມສຳຄັນຕໍ່ກັບນະໂຍບາຍ ເຊິ່ງສາມາດສະໜັບສະໜູນເປົ້າໝາຍດ້ານຄວາມທົນທານຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດຂອງ ສປປ ລາວ. ຜົນງານການຄົ້ນຄວ້າທີ່ໄດ້ຮັບທຶນນີ້ ຈະປະກອບສ່ວນເຂົ້າໃນການສ້າງຄວາມເຂົ້າໃຈຢ່າງເລິກເຊິ່ງກ່ຽວກັບຄວາມບອບບາງຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດ ແລະ ຊ່ວຍກຳນົດວິທີການແກ້ໄຂບັນຫາດ້ານການປັບຕົວທີ່ມີປະສິດທິຜົນ, ມີຄວາມເປັນທຳ ແລະ ຍືນຍົງ. ຂໍ້ລິເລີ່ມນີ້ມີຈຸດປະສົງເພື່ອສ້າງຄວາມສາມາດໃນການປັບຕົວຂອງຊຸມຊົນ, ລະບົບນິເວດ ແລະ ຂະແໜງເສດຖະກິດຫຼັກໃນທົ່ວ ສປປ ລາວ.</p>
+</section>
+
+<section class="section" id="Criteria">
+<h2 data-lang="en">III. Criteria</h2>
+<h2 data-lang="lo">III. ຂໍ້ກຳນົດ</h2>
+<h3 data-lang="en">3.1 Research Project</h3>
+<h3 data-lang="lo">3.1 ບົດໂຄງການຄົ້ນຄວ້າວິໄຈ</h3>
+<div class="card">
+<p style="text-align:justify;" class="muted" data-lang="en">  1. The project should demonstrate a strong conceptual foundation, including a clear research question, a comprehensive literature review, and a sound methodology. Research should generate new knowledge with policy relevance and be suitable for publication in peer-reviewed journals (domestic or international)..</p>
+<p style="text-align:justify;" class="muted" data-lang="lo">  1. ໂຄງການຕ້ອງສະແດງໃຫ້ເຫັນເຖິງພື້ນຖານທາງດ້ານແນວຄວາມຄິດທີ່ໜັກແໜ້ນ, ເຊິ່ງລວມມີຄຳຖາມການຄົ້ນຄວ້າທີ່ຊັດເຈນ, ການທົບທວນເອກະສານທີ່ກ່ຽວຂ້ອງຢ່າງຮອບດ້ານ ແລະ ມີລະບຽບວິທີການຄົ້ນຄວ້າທີ່ຖືກຕ້ອງຕາມຫຼັກການ. ການຄົ້ນຄວ້າຈະຕ້ອງສ້າງຄວາມຮູ້ໃໝ່ທີ່ມີຄວາມສໍາຄັນຕໍ່ນະໂຍບາຍ ແລະ ເໝາະສົມທີ່ຈະສາມາດຕີພິມໃນວາລະສານທາງວິຊາການທີ່ມີການກວດສອບຈາກຜູ້ຊ່ຽວຊານ (ທັງພາຍໃນ ແລະ ຕ່າງປະເທດ).</p>
+<p style="text-align:justify;" class="muted" data-lang="en">  2. The project must address one or more of the following research areas:</p>
+<p style="text-align:justify;" class="muted" data-lang="lo">  2. ໂຄງການຈະຕ້ອງຕອບສະໜອງຫົວຂໍ້ການຄົ້ນຄວ້າຂ້າງລຸ່ມນີ້ ໜຶ່ງ ຫຼື ຫຼາຍກວ່າໜຶ່ງຫົວຂໍ້:</p>
+          <ul class="list">
+            <li class="muted" data-lang="en" style="text-align:justify;"><b>Thematic Area 1: Climate-Resilient Innovation, Technique, or Technology in Key Sectors.</b> Research in this area should focus on developing and testing adaptation strategies to enhance the resilience of Lao PDR's key sectors, such as agriculture and forestry.</li>
+            <li class="muted" data-lang="en" style="text-align:justify;"><b>Thematic Area 2: Nature-based Solutions (NbS) for Adaptation.</b> This theme supports research on the use of ecosystems and biodiversity to address climate change, exploring how the protection, restoration, and sustainable management of ecosystems can build resilience.</li>
+            <li class="muted" data-lang="en" style="text-align:justify;"><b>Thematic Area 3: Climate Information and Early Warning Systems.</b> Research under this theme should focus on improving the generation, communication, and use of climate information and early warnings to support decision-making at all levels.</li>
+            <li class="muted" data-lang="en" style="text-align:justify;"><b>Thematic Area 4: Gender, Poverty, and Social Inclusion in Adaptation.</b> This cross-cutting theme requires research that investigates the differentiated impacts of climate change on vulnerable populations and how to design equitable and empowering adaptation actions.</li>
+            <li class="muted" data-lang="lo" style="text-align:justify;"><b>ຂົງເຂດທີ 1: ນະວັດຕະກຳ, ເຕັກນິກ ຫຼື ເທັກໂນໂລຢີທີ່ທົນທານຕໍ່ການປ່ຽນແປງດິນຟ້າອາກາດໃນຂະແໜງການຫຼັກ:</b> ການຄົ້ນຄວ້າໃນຂົງເຂດນີ້ຄວນສຸມໃສ່ການພັດທະນາ ແລະ ທົດສອບຍຸດທະສາດການປັບຕົວ ເພື່ອເພີ່ມທະວີຄວາມທົນທານຂອງຂະແໜງການຫຼັກຂອງ ສປປ ລາວ ເຊັ່ນ: ການກະສິກຳ ແລະ ປ່າໄມ້.</li>
+            <li class="muted" data-lang="lo" style="text-align:justify;"><b>ຂົງເຂດທີ 2: ວິທີການແກ້ໄຂບັນຫາໂດຍອີງໃສ່ທຳມະຊາດ (NbS) ເພື່ອການປັບຕົວ:</b> ຫົວຂໍ້ນີ້ສະໜັບສະໜູນການຄົ້ນຄວ້າກ່ຽວກັບການນຳໃຊ້ລະບົບນິເວດ ແລະ ຊີວະນາໆພັນ ເພື່ອຮັບມືກັບການປ່ຽນແປງດິນຟ້າອາກາດ, ສຳຫຼວດວິທີການປົກປັກຮັກສາ, ຟື້ນຟູ ແລະ ຄຸ້ມຄອງລະບົບນິເວດແບບຍືນຍົງ ເພື່ອສ້າງຄວາມທົນທານ.</li>
+            <li class="muted" data-lang="lo" style="text-align:justify;"><b>ຂົງເຂດທີ 3: ຂໍ້ມູນຂ່າວສານດ້ານດິນຟ້າອາກາດ ແລະ ລະບົບການແຈ້ງເຕືອນໄພລ່ວງໜ້າ:</b> ການຄົ້ນຄວ້າພາຍໃຕ້ຫົວຂໍ້ນີ້ ຄວນສຸມໃສ່ການປັບປຸງການສ້າງ, ການສື່ສານ ແລະ ການນຳໃຊ້ຂໍ້ມູນດິນຟ້າອາກາດ ແລະ ການແຈ້ງເຕືອນໄພລ່ວງໜ້າ ເພື່ອສະໜັບສະໜູນການຕັດສິນໃຈໃນທຸກລະດັບ.</li>
+            <li class="muted" data-lang="lo" style="text-align:justify;"><b>ຂົງເຂດທີ 4: ບົດບາດຍິງ-ຊາຍ, ຄວາມທຸກຍາກ ແລະ ການມີສ່ວນຮ່ວມຂອງທຸກພາກສ່ວນໃນສັງຄົມໃນການປັບຕົວ:</b> ຫົວຂໍ້ທີ່ຕັດຜ່ານທຸກຂົງເຂດນີ້ ຮຽກຮ້ອງໃຫ້ມີການຄົ້ນຄວ້າທີ່ສຶກສາຜົນກະທົບທີ່ແຕກຕ່າງກັນຂອງການປ່ຽນແປງດິນຟ້າອາກາດຕໍ່ກັບປະຊາກອນກຸ່ມເປາະບາງ ແລະ ວິທີການອອກແບບການດຳເນີນງານດ້ານການປັບຕົວທີ່ມີຄວາມສະເໝີພາບ ແລະ ສົ່ງເສີມສິດທິອຳນາດ.</li>
+          </ul>
+</section>
+
+<section class="section" id="Qualified Applicants">
+<h2 data-lang="en">IV. Qualified Applicants</h2><h2 data-lang="lo">IV.  ເງືອນໄຂໃນການສະໝັກ</h2>
+<div class="card">
+    <ul class="list">
+        <li class="muted" data-lang="en" style="text-align:justify;"><b>Institutional Eligibility:</b> The lead applicant must be a national research institution or a university legally registered and operating in Lao PDR. Consortium applications are highly encouraged, particularly partnerships between central and provincial institutions.</li>
+        <li class="muted" data-lang="lo" style="text-align:justify;"><b>ເງື່ອນໄຂຂອງຜູ້ສະໝັກ:</b> ຜູ້ສະໝັກຫຼັກຈະຕ້ອງເປັນສະຖາບັນຄົ້ນຄວ້າແຫ່ງຊາດ ຫຼື ມະຫາວິທະຍາໄລ ທີ່ໄດ້ຈົດທະບຽນ ແລະ ດຳເນີນງານຢ່າງຖືກຕ້ອງຕາມກົດໝາຍໃນ ສປປ ລາວ. ການສະໝັກໃນນາມກຸ່ມ/ຄະນະ ແມ່ນໄດ້ຮັບການຊຸກຍູ້ສົ່ງເສີມເປັນຢ່າງສູງ, ໂດຍສະເພາະການຮ່ວມມືລະຫວ່າງສະຖາບັນຈາກສູນກາງ ແລະ ທ້ອງຖິ່ນ.</li>
+        <li class="muted" data-lang="en" style="text-align:justify;"><b>Project Team Eligibility:</b> The Principal Investigator (PI) must hold a Master's degree or PhD in a relevant field and be a citizen or long-term resident of Lao PDR. The research team should be multi-disciplinary and demonstrate a commitment to gender balance.</li>
+        <li class="muted" data-lang="lo" style="text-align:justify;"><b>ຄຸນສົມບັດຂອງທີມງານໂຄງການ:</b> ຫົວໜ້າໂຄງການຄົ້ນຄວ້າ (PI) ຈະຕ້ອງຈົບການສຶກສາລະດັບປະລິນຍາໂທ ຫຼື ປະລິນຍາເອກ ໃນສາຂາທີ່ກ່ຽວຂ້ອງ ແລະ ຕ້ອງເປັນພົນລະເມືອງ ຫຼື ຜູ້ທີ່ມີຖິ່ນອາໄສຖາວອນໃນ ສປປ ລາວ. ທີມງານຄົ້ນຄວ້າຄວນປະກອບດ້ວຍບຸກຄະລາກອນຈາກຫຼາກຫຼາຍສາຂາວິຊາ ແລະ ສະແດງໃຫ້ເຫັນເຖິງຄວາມເອົາໃຈໃສ່ຕໍ່ຄວາມສົມດຸນທາງດ້ານບົດບາດຍິງ-ຊາຍ.</li>
+    </ul>
+</section>
+
+<section class="section" id="Proposal Review Process">
+<h2 data-lang="en">V. Proposal Review Process</h2><h2 data-lang="lo">V. ຂະບວນການພິຈາລະນາຂໍ້ສະເໜີໂຄງການ</h2>
+<div class="card">
+    <ul class="list">
+        <li class="muted" data-lang="en" style="text-align:justify;"><b>Initial Screening:</b> The Research Committee will conduct a preliminary review to ensure proposals are complete and meet basic eligibility criteria. Incomplete or ineligible submissions will not advance.</li>
+        <li class="muted" data-lang="lo" style="text-align:justify;"><b>ການພິຈາລະນາໄລຍະທຳອິດ:</b> ຄະນະກຳມະການດ້ານການຄົ້ນຄວ້າ ຈະດຳເນີນການກວດສອບໃນເບື້ອງຕົ້ນ ເພື່ອຮັບປະກັນວ່າຂໍ້ສະເໜີໂຄງການມີຄວາມຄົບຖ້ວນ ແລະ ຖືກຕ້ອງຕາມເງື່ອນໄຂພື້ນຖານ. ຂໍ້ສະເໜີທີ່ບໍ່ຄົບຖ້ວນ ຫຼື ບໍ່ຖືກຕ້ອງຕາມເງື່ອນໄຂຈະບໍ່ໄດ້ຮັບການພິຈາລະນາໃນຂັ້ນຕໍ່ໄປ.</li>
+        <li class="muted" data-lang="en" style="text-align:justify;"><b>Full Review:</b> Qualifying proposals will be evaluated by a panel consisting of one PMU member and two external experts. The evaluation will consider feasibility, academic quality, and policy relevance.</li>
+        <li class="muted" data-lang="lo" style="text-align:justify;"><b>ການພິຈາລະນາໄລຍະສຸດທ້າຍ:</b> ຂໍ້ສະເໜີທີ່ຜ່ານການກວດສອບເບື້ອງຕົ້ນ ຈະໄດ້ຮັບການປະເມີນຈາກຄະນະກຳມະການ ເຊິ່ງປະກອບດ້ວຍ ສະມາຊິກຈາກໜ່ວຍງານຄຸ້ມຄອງໂຄງການ (PMU) 1 ທ່ານ ແລະ ຜູ້ຊ່ຽວຊານຈາກພາຍນອກ 2 ທ່ານ. ການປະເມີນຜົນຈະພິຈາລະນາເຖິງຄວາມເປັນໄປໄດ້, ຄຸນນະພາບທາງດ້ານວິຊາການ ແລະ ຄວາມສອດຄ່ອງກັບນະໂຍບາຍ.</li>
+        <li class="muted" data-lang="en" style="text-align:justify;"><b>Notification:</b> Applicants will be notified of the decision within approximately two weeks after the submission deadline.</li>
+        <li class="muted" data-lang="lo" style="text-align:justify;"><b>ການປະກາດຜົ້ນຜົນ:</b> ຜູ້ສະໝັກຈະໄດ້ຮັບການແຈ້ງຜົນການພິຈາລະນາພາຍໃນເວລາປະມານສອງອາທິດ ຫຼັງຈາກມື້ປິດຮັບສະໝັກ.</li>
+    </ul>
+</section>
+
+<section class="section" id="Research Grant">
+<h2 data-lang="en">VI. Research Grant Details</h2><h2 data-lang="lo">VI. ລາຍລະອຽດທຶນຊ່ວຍເຫຼືອລ້າ</h2><div class="timeline">
+<div class="step card">
+<div aria-hidden="true" class="bar"></div>
+<div>
+<strong data-lang="en"> Duration: Approximately 5 months.</strong>
+<strong data-lang="lo">ໄລຍະເວລາ: ປະມານ 5 ເດືອນ</strong>
+<div class="muted" data-lang="en"> Funding: Up to 3,000 USD.</div>
+<div class="muted" data-lang="lo"> ມູນຄ່າທຶນ: ສູງສຸດບໍ່ເກີນ 3,000 ໂດລາສະຫະລັດ.</div>
+</div>
+</div>
+<div class="step card">
+<div aria-hidden="true" class="bar"></div>
+<div>
+<strong data-lang="en">Expected Deliverables</strong>
+<strong data-lang="lo">ຜົນງານທີ່ຄາດວ່າຈະໄດ້ຮັບ</strong>
+<div class="muted" data-lang="en">Grant recipients will be required to submit a full research paper (in English) for publication as a NAP Discussion Paper.</div>
+<div class="muted" data-lang="lo">ຜູ້ທີ່ໄດ້ຮັບທຶນຈະຕ້ອງສົ່ງບົດລາຍງານການຄົ້ນຄວ້າສະບັບສົມບູນ (ເປັນພາສາອັງກິດ) ເພື່ອຕີພິມເປັນເອກະສານສົນທະນາຂອງ NAP (NAP Discussion Paper)..</div>
+</div>
+</div>
+<div class="step card">
+<div aria-hidden="true" class="bar"></div>
+<div>
+<strong data-lang="en">Submission Deadline:</strong>
+<strong data-lang="lo">ກຳນົດສົ່ງເອກະສານ</strong>
+<div class="muted" data-lang="en">September 26, 2025.</div>
+<div class="muted" data-lang="lo">ວັນທີ 26 ກັນຍາ 2025. </div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="Application Submission">
+<h2 data-lang="en">VII. Application Submission</h2><h2 data-lang="lo">VII. ການຍື່ນສະໝັກ</h2>
+<div class="card">
+<p style="text-align:justify;" class="muted" data-lang="en">1. The Applicants must submit a signed proposal form via email to <strong>naplaos2024@gmail.com</strong> with the subject line: “NAP's Targeted Research Grant 2025 Application”.</p>
+<p style="text-align:justify;" class="muted" data-lang="lo">1. ຜູ້ສະໝັກຕ້ອງສົ່ງແບບຟອມຂໍ້ສະເໜີໂຄງການທີ່ໄດ້ຮັບການເຊັນຮັບຮອງຜ່ານທາງອີເມວ ໄປທີ່: <strong>naplaos2024@gmail.com</strong> ໂດຍໃສ່ຫົວຂໍ້ອີເມວວ່າ: “NAP's Targeted Research Grant 2025 Application”.</p>
+<p style="text-align:justify;" class="muted" data-lang="en">2. A complete application package must consist of the following documents submitted as separate files:</p>
+<p style="text-align:justify;" class="muted" data-lang="lo">2. ເອກະສານການສະໝັກທີ່ຄົບຖ້ວນຈະຕ້ອງປະກອບມີເອກະສານດັ່ງຕໍ່ໄປນີ້, ເຊິ່ງຕ້ອງສົ່ງເປັນໄຟລ໌ແຍກກັນ:</p>
+  <ul class="list">
+    <li class="muted" data-lang="en" style="text-align:justify;"><b>Completed Research Proposal Application Form (in Microsoft Word format).</li>
+    <li class="muted" data-lang="en" style="text-align:justify;"><b>Detailed Project Budget (in Microsoft Excel format, using the provided template).</li>
+    <li class="muted" data-lang="en" style="text-align:justify;"><b>Completed Gender and Poverty Integration Checklist (in Microsoft Word format).</li>
+    <li class="muted" data-lang="en" style="text-align:justify;"><b>Curriculum Vitae (CVs) for the Principal Investigator and all key research team members (in PDF format, maximum 3 pages per CV).</li>
+    <li class="muted" data-lang="en" style="text-align:justify;"><b>A copy of the lead applicant institution's legal registration certificate (in PDF format).</li>
+    <li class="muted" data-lang="lo" style="text-align:justify;"><b>ແບບຟອມສະໝັກຂໍ້ສະເໜີໂຄງການຄົ້ນຄວ້າທີ່ຕື່ມຂໍ້ມູນຄົບຖ້ວນ (ໃນຮູບແບບ Microsoft Word).</li>
+    <li class="muted" data-lang="lo" style="text-align:justify;"><b>ລາຍລະອຽດງົບປະມານໂຄງການ (ໃນຮູບແບບ Microsoft Excel, ໂດຍນໍາໃຊ້ໂຄງຮ່າງທີ່ທີ່ກຳນົດໃຫ້).</li>
+    <li class="muted" data-lang="lo" style="text-align:justify;"><b>ລາຍການກວດສອບການເຊື່ອມສານວຽກງານບົດບາດຍິງ-ຊາຍ ແລະ ຄວາມທຸກຍາກທີ່ຕື່ມຂໍ້ມູນຄົບຖ້ວນ (ໃນຮູບແບບ Microsoft Word).</li>
+    <li class="muted" data-lang="lo" style="text-align:justify;"><b>ປະຫວັດຫຍໍ້ (CVs) ຂອງຫົວໜ້າໂຄງການ ແລະ ສະມາຊິກຫຼັກທຸກຄົນໃນທີມ (ໃນຮູບແບບ PDF, ຄວາມຍາວສູງສຸດບໍ່ເກີນ 3 ໜ້າຕໍ່ສະບັບ).</li>
+    <li class="muted" data-lang="lo" style="text-align:justify;"><b>ສຳເນົາໃບຢັ້ງຢືນການຈົດທະບຽນທີ່ຖືກຕ້ອງຕາມກົດລະບຽບຂອງຜູ້ສະໝັກຫຼັກ (ໃນຮູບແບບ PDF).</li>
+  </ul>
+</section>
+</div>
+
+</main>
+<footer>
+<div class="container">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+<div>
+<div class="kicker" data-lang="en">Official contact</div>
+<div class="kicker" data-lang="lo">ຊ່ອງທາງຕິດຕໍ່</div>
+</div>
+<div class="muted">
+<span data-lang="en">© Copyright 2025. All rights reserved.</span>
+<span data-lang="lo">© ສະຫງວນລິຂະສິດ 2025.</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    const btnEn = document.getElementById('btn-en');
+    const btnLo = document.getElementById('btn-lo');
+    const body = document.body;
+
+    function setLang(lang){
+      body.classList.toggle('show-en', lang === 'en');
+      body.classList.toggle('show-lo', lang === 'lo');
+      body.dataset.currentLang = lang;
+      btnEn.classList.toggle('active', lang === 'en');
+      btnLo.classList.toggle('active', lang === 'lo');
+      btnEn.setAttribute('aria-pressed', lang === 'en');
+      btnLo.setAttribute('aria-pressed', lang === 'lo');
+      localStorage.setItem('lang', lang);
+    }
+
+    btnEn.addEventListener('click', () => setLang('en'));
+    btnLo.addEventListener('click', () => setLang('lo'));
+
+    // initialize from storage or browser
+    const stored = localStorage.getItem('lang');
+    const browserLang = (navigator.language || '').toLowerCase().startsWith('lo') ? 'lo' : 'en';
+    setLang(stored || browserLang);
+
+    // Mobile menu toggle
+    const nav = document.querySelector('.nav');
+    const hamburger = document.querySelector('.hamburger');
+
+    if (hamburger && nav) {
+        hamburger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            const isExpanded = nav.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
+        });
+    }
+  </script>
+</body>
+</html>
+
